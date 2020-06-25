@@ -1,6 +1,6 @@
 ocio_profile_version: 1
 
-search_path: luts
+search_path: "luts:aces_vwg_gm"
 strictparsing: true
 luma: [0.2126, 0.7152, 0.0722]
 
@@ -21,6 +21,13 @@ roles:
   texture_paint: ACES - ACEScc
 
 displays:
+  ACES VWG GM:
+    - !<View> {name: ACES (Rec.709), colorspace: Output - ACES - Rec.709 - ACES GM VWG}
+    - !<View> {name: ARRI ALF-2 (Rec.709), colorspace: Output - ARRI ALF-2 - Rec.709 - ACES GM VWG}
+    - !<View> {name: ARRI K1S1 (Rec.709), colorspace: Output - ARRI K1S1 - Rec.709 - ACES GM VWG}
+    - !<View> {name: RED IPP2 (Rec.709), colorspace: Output - RED IPP2 - Rec.709 - ACES GM VWG}
+    - !<View> {name: Filmlight TCAM (Rec.709), colorspace: Output - Filmlight TCAM - Rec.709 - ACES GM VWG}
+    - !<View> {name: -----------------------------, colorspace: Utility - Raw}
   ACES:
     - !<View> {name: sRGB, colorspace: Output - sRGB}
     - !<View> {name: DCDM, colorspace: Output - DCDM}
@@ -49,8 +56,8 @@ displays:
     - !<View> {name: Raw, colorspace: Utility - Raw}
     - !<View> {name: Log, colorspace: Input - ADX - ADX10}
 
-active_displays: [ACES]
-active_views: [sRGB, DCDM, DCDM P3D60 Limited, DCDM P3D65 Limited, P3-D60, P3-D65 ST2084 1000 nits, P3-D65 ST2084 2000 nits, P3-D65 ST2084 4000 nits, P3-DCI D60 simulation, P3-DCI D65 simulation, P3D65, P3D65 D60 simulation, P3D65 Rec.709 Limited, P3D65 ST2084 108 nits, Rec.2020, Rec.2020 P3D65 Limited, Rec.2020 Rec.709 Limited, Rec.2020 HLG 1000 nits, Rec.2020 ST2084 1000 nits, Rec.2020 ST2084 2000 nits, Rec.2020 ST2084 4000 nits, Rec.709, Rec.709 D60 sim., sRGB D60 sim., Raw, Log]
+active_displays: [ACES VWG GM, ACES]
+active_views: [ACES (Rec.709), ARRI ALF-2 (Rec.709), ARRI K1S1 (Rec.709), RED IPP2 (Rec.709), Filmlight TCAM (Rec.709), -----------------------------, sRGB, DCDM, DCDM P3D60 Limited, DCDM P3D65 Limited, P3-D60, P3-D65 ST2084 1000 nits, P3-D65 ST2084 2000 nits, P3-D65 ST2084 4000 nits, P3-DCI D60 simulation, P3-DCI D65 simulation, P3D65, P3D65 D60 simulation, P3D65 Rec.709 Limited, P3D65 ST2084 108 nits, Rec.2020, Rec.2020 P3D65 Limited, Rec.2020 Rec.709 Limited, Rec.2020 HLG 1000 nits, Rec.2020 ST2084 1000 nits, Rec.2020 ST2084 2000 nits, Rec.2020 ST2084 4000 nits, Rec.709, Rec.709 D60 sim., sRGB D60 sim., Raw, Log]
 
 colorspaces:
   - !<ColorSpace>
@@ -4964,3 +4971,93 @@ colorspaces:
     allocation: lg2
     allocationvars: [-8, 5, 0.00390625]
     to_reference: !<ColorSpaceTransform> {src: ACES - ACEScg, dst: ACES - ACES2065-1}
+
+  - !<ColorSpace>
+    name: Input - Filmlight T-Log - E-Gamut
+    family: Input/Filmlight
+    equalitygroup: ""
+    bitdepth: 32f
+    description: |
+      T-Log - E-Gamut
+    isdata: false
+    allocation: uniform
+    allocationvars: [0, 1]
+    to_reference: !<GroupTransform>
+      children:
+        - !<FileTransform> {src: T_Log_to_linear.spi1d, interpolation: linear}
+        - !<MatrixTransform> {matrix: [0.742249, 0.172616, 0.085135, 0, 0.024648, 1.038230, -0.062878, 0, -0.095295, -0.066945, 1.162240, 0, 0, 0, 0, 1]}
+
+  - !<ColorSpace>
+    name: Output - ACES - Rec.709 - ACES GM VWG
+    family: Output
+    equalitygroup: ""
+    bitdepth: 32f
+    description: |
+      ACES Gamut Mapping Virtual Working Group - ACES (Rec.709) Output Transform
+    isdata: false
+    allocation: uniform
+    allocationvars: [0, 1]
+    from_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: ACES - ACES2065-1, dst: ACES - ACEScg}
+        - !<FileTransform> {src: ACEScg_to_ACES_Rec709.csp, interpolation: tetrahedral}
+
+  - !<ColorSpace>
+    name: Output - ARRI ALF-2 - Rec.709 - ACES GM VWG
+    family: Output
+    equalitygroup: ""
+    bitdepth: 32f
+    description: |
+      ACES Gamut Mapping Virtual Working Group - ALF-2 (Rec.709) Output Transform
+    isdata: false
+    allocation: uniform
+    allocationvars: [0, 1]
+    from_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: ACES - ACES2065-1, dst: Input - ARRI - V3 LogC (EI800) - Wide Gamut}
+        - !<FileTransform> {src: LogCv3_AWG3_to_ALF2_709.spi3d, interpolation: tetrahedral}
+
+  - !<ColorSpace>
+    name: Output - ARRI K1S1 - Rec.709 - ACES GM VWG
+    family: Output
+    equalitygroup: ""
+    bitdepth: 32f
+    description: |
+      ACES Gamut Mapping Virtual Working Group - ARRI K1S1 (Rec.709) Output Transform
+    isdata: false
+    allocation: uniform
+    allocationvars: [0, 1]
+    from_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: ACES - ACES2065-1, dst: Input - ARRI - V3 LogC (EI800) - Wide Gamut}
+        - !<FileTransform> {src: LogCv3_AWG3_to_K1S1_709.spi3d, interpolation: tetrahedral}
+
+  - !<ColorSpace>
+    name: Output - RED IPP2 - Rec.709 - ACES GM VWG
+    family: Output
+    equalitygroup: ""
+    bitdepth: 32f
+    description: |
+      ACES Gamut Mapping Virtual Working Group - RED IPP2 (Rec.709) Output Transform
+    isdata: false
+    allocation: uniform
+    allocationvars: [0, 1]
+    from_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: ACES - ACES2065-1, dst: Input - RED - REDLog3G10 - REDWideGamutRGB}
+        - !<FileTransform> {src: Log3G10_RWG_to_IPP2_709.spi3d, interpolation: tetrahedral}
+
+  - !<ColorSpace>
+    name: Output - Filmlight TCAM - Rec.709 - ACES GM VWG
+    family: Output
+    equalitygroup: ""
+    bitdepth: 32f
+    description: |
+      ACES Gamut Mapping Virtual Working Group - Filmlight TCAM (Rec.709) Output Transform
+    isdata: false
+    allocation: uniform
+    allocationvars: [0, 1]
+    from_reference: !<GroupTransform>
+      children:
+        - !<ColorSpaceTransform> {src: ACES - ACES2065-1, dst: Input - Filmlight T-Log - E-Gamut}
+        - !<FileTransform> {src: T_Log_E_Gamut_to_T_CAM_709.spi3d, interpolation: tetrahedral}
