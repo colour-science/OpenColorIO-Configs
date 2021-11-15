@@ -1,28 +1,22 @@
-MARZ OpenColorIO-Configs 
-------------------------
+# MARZ OpenColorIO-Configs 
+
+---
 marzvfx Fork:
     https://github.com/marzvfx/OpenColorIO-Configs
 
 Source Repo:
     https://github.com/colour-science/OpenColorIO-Configs.
 
+---
+### _The marzvfx fork is a reduced copy of the OpenColorIO-Configs repo_
+ - **_Deleted:_**
+   - _Unused versions_
+   - _Baked LUTs folders_
+   - _Python scripts_
+ - **_Retained:_**
+   - _aces_1.0.3_
+   - _aces_1.2_
+   - _nuke-default_
 
-The 
 
-
-This repository contains all the default color configurations, for use with
-OpenColorIO.
-
-Visit opencolorio.org for additional information.
-
-Copyright
----------
-
-Copyright for the code and artifacts in the "aces_0.1.1", "aces_0.7.1",
-"nuke-default", "spi-anim" and "spi-vfx" directories are held by
-Sony Pictures Imageworks.
-
-Copyright for the code and artifacts in the "aces_1.0.1", "aces_1.0.2",
-"aces_1.0.3", "aces_1.1" and "aces_1.2" directories are held by the
-Academy of Motion Picture Arts and Sciences and are licensed under the
-License Terms for Academy Color Encoding System Components.
+###### Refer to [original source](https://github.com/colour-science/OpenColorIO-Configs) for copyright and documentation 
